@@ -25,7 +25,6 @@ class HashTable:
         for element in self.table[hashvalue]:
             if element[0] == key:
                 return element[1]
-        return None
 
     def __delitem__(self, key):
         hashvalue = self.gethashvalue(key)
@@ -34,14 +33,54 @@ class HashTable:
                 del self.table[hashvalue][idx]
 
 
-if __name__ == '__main__':
+def readfiletohash(filename):
     h = HashTable()
-    h['march 6'] = 520
-    h['march 6'] = 420
-    h['march 7'] = 420
-    h['march 17'] = 125
+    with open(filename, "r") as f:
+        for line in f:
+            tokens = line.split(',')
+            try:
+                temperature = int(tokens[1])
+                h[tokens[0]] = temperature
+            except:
+                print("Invalid temperature.Ignore the row")
+    return h
+
+
+def readfiletoarray(filename):
+    arr = []
+    with open(filename, "r") as f:
+        for line in f:
+            tokens = line.split(',')
+            try:
+                temperature = int(tokens[1])
+                arr.append(temperature)
+            except:
+                print("Invalid temperature.Ignore the row")
+    return arr
+
+
+def countwords(filename):
+    words = {}
+    with open(filename, "r") as f:
+        for line in f:
+            tokens = line.split(' ')
+            for word in tokens:
+                word = word.replace('\n', '')
+                if word in words:
+                    words[word] += 1
+                else:
+                    words[word] = 1
+    return words
+
+
+if __name__ == '__main__':
+    h = readfiletohash('input/nyc_weather.csv')
     print(h.table)
-    del h['march 7']
-    print(h.table)
-    print(h['march 6'])
-    print(h['march 17'])
+    arr = readfiletoarray('input/nyc_weather.csv')
+    print(f'Average temperature in first week of Jan: {sum(arr[:7]) / len(arr[:7]):.2f}')
+    print(f'Maximum temperature in first 10 days of Jan: {max(arr[:10])}')
+    print(f'Temperature on Jan 9: {h["Jan 9"]}')
+    print(f'Temperature on Jan 4: {h["Jan 4"]}')
+
+    print('============= Word Counts ==============')
+    print(countwords('input/poem.txt'))
