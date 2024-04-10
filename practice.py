@@ -1,4 +1,5 @@
 from math import floor
+from typing import List
 
 a = "Hello"
 b = "Saleh"
@@ -69,10 +70,10 @@ my_tuple_1 = (n for n in numbers_1)
 # lambda to print the tuple
 # for n in my_tuple_1:
 #     print(n)
-list(map(lambda n: print(n*n), my_tuple_1))
+list(map(lambda n: print(n * n), my_tuple_1))
 
 
-def isAnagram( s, t):
+def isAnagram(s, t):
     """
     :type s: str
     :type t: str
@@ -86,6 +87,16 @@ def isAnagram( s, t):
     print(lt)
     return ls == lt
 
+
 s = 'abc'
 t = 'bca'
 print(isAnagram(s, t))
+
+a =[1,2,3,1]
+k=1
+while True:
+    if k in a:
+        a.remove(1)
+    else:
+        break
+print(a)
